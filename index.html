@@ -9,61 +9,20 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f5f5f5;
+            background: linear-gradient(to bottom, #d4e4dc, #f8f8f8);
             display: flex;
             flex-direction: column;
             align-items: center;
         }
 
         header {
-            background-color:#57758c;
+            background-color: #57758c;
             color: white;
             text-align: center;
             padding: 1rem;
             width: 100%;
         }
 
-        /* Carrusel */
-        .carousel-container {
-            width: 100%;
-            overflow: hidden;
-            position: relative;
-            margin-bottom: 20px;
-        }
-
-        .carousel-images {
-            display: flex;
-            transition: transform 0.5s ease;
-        }
-
-        .carousel-images img {
-            width: 100%;
-            height: 400px;
-            object-fit: cover;
-        }
-
-        .carousel-buttons {
-            position: absolute;
-            top: 50%;
-            left: 10px;
-            transform: translateY(-50%);
-            z-index: 10;
-        }
-
-        .carousel-buttons button {
-            background-color: rgba(0, 0, 0, 0.5);
-            color: white;
-            border: none;
-            padding: 10px;
-            cursor: pointer;
-            font-size: 20px;
-        }
-
-        .carousel-buttons button:hover {
-            background-color: rgba(0, 0, 0, 0.8);
-        }
-
-        /* Mapa */
         .main-container {
             display: flex;
             justify-content: space-between;
@@ -74,25 +33,30 @@
         .map-container {
             width: 70%;
             position: relative;
-            border: 2px solid black;
+            border: 2px solid #345c4d;
             padding: 10px;
             box-sizing: border-box;
-            background-color: #128b89;
+            background-color: #a6d5c8;
+            border-radius: 10px;
+        }
+
+        .map-container .cama,
+        .map-container .shala,
+        .map-container .piscina,
+        .map-container .cancha,
+        .map-container .bar {
+            position: absolute;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: bold;
+            color: #ffffff;
         }
 
         .map-container .cama {
-            position: absolute;
             width: 50px;
             height: 50px;
-            border-radius: 8px;
-            text-align: center;
             line-height: 50px;
-            font-weight: bold;
-            color: rgb(255, 255, 255);
             cursor: pointer;
-        }
-
-        .map-container .cama.disponible {
             background-color: #4caf50;
         }
 
@@ -101,80 +65,76 @@
             cursor: not-allowed;
         }
 
-        .reservas-container {
-            width: 25%;
-            padding: 10px;
-            border: 2px solid black;
-            display: flex;
-            flex-direction: column;
+        .map-container .cama.seleccionada {
+            border: 3px solid #ff9800;
         }
 
-        .reservas-container h3 {
-            text-align: center;
+        .shala {
+            height: 40px;
+            background-color: #f9a825;
+            line-height: 40px;
+            color: #fff;
         }
 
-        .cama-btn {
-            background-color: #57758c;
-            color: white;
-            padding: 10px;
-            margin-bottom: 10px;
-            text-align: center;
-            cursor: pointer;
-            font-weight: bold;
-            border-radius: 5px;
-            width: 100%;
+        .piscina {
+            background-color: #4fc3f7;
+            height: 60px;
+            line-height: 60px;
         }
 
-        .cama-btn.reservada {
-            background-color: #f44336;
-            cursor: not-allowed;
+        .cancha {
+            background-color: #ffd54f;
+            height: 60px;
+            line-height: 60px;
+            color: #000;
         }
 
-        .cama-btn:hover {
-            background-color: #0a4e34;
-        }
-
-        .cama-btn.reservada:hover {
-            background-color: #d32f2f;
+        .bar {
+            background-color: #81c784;
+            height: 40px;
+            line-height: 40px;
         }
 
         .form-container {
-            margin-top: 20px;
-            width: 100%;
-            max-width: 600px;
+            width: 25%;
             padding: 20px;
             background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-container h2 {
+            margin-bottom: 0.5rem;
+        }
+
+        .form-info {
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+            color: #333;
         }
 
         .form-group {
-            margin-bottom: 15px;
+            margin-bottom: 1rem;
         }
 
-        .form-group label {
+        label {
             display: block;
             font-weight: bold;
+            margin-bottom: 0.3rem;
         }
 
-        .form-group input,
-        .form-group select {
+        input, select, button {
             width: 100%;
             padding: 10px;
-            margin-top: 5px;
-            border-radius: 5px;
             border: 1px solid #ccc;
+            border-radius: 5px;
         }
 
         button {
             background-color: #0c6b47;
             color: white;
-            padding: 10px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
             font-weight: bold;
-            width: 100%;
+            cursor: pointer;
         }
 
         button:hover {
@@ -186,8 +146,14 @@
             display: none;
         }
 
-        .cama.seleccionada {
-            border: 3px solid #ff9800;
+        .mar {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 20px;
+            font-weight: bold;
+            color: #00bcd4;
         }
     </style>
 </head>
@@ -196,60 +162,58 @@
         <h1>Beach Club Ikal - Reserva de Camas</h1>
     </header>
 
-    <!-- Carrusel de imágenes -->
-    
-
     <div class="main-container">
-        <!-- Mapa -->
         <div class="map-container">
-            <!-- Mar Caribe -->
-            <div style="position: absolute; top: 0; left: 50%; transform: translateX(-50%); font-size: 20px; font-weight: bold;color: aqua;">Mar Caribe</div>
+            <div class="mar">Mar Caribe</div>
 
             <!-- Primera línea -->
-            <div class="cama disponible" style="position: absolute; top: 10%; left: 5%;" data-cama="Infi 6">Infi 6</div>
-            <div class="cama disponible" style="position: absolute; top: 10%; left: 15%;" data-cama="Infi 5">Infi 5</div>
-            <div class="cama disponible" style="position: absolute; top: 10%; left: 25%;" data-cama="Infi 4">Infi 4</div>
-            <div class="cama disponible" style="position: absolute; top: 10%; left: 35%;" data-cama="Infi 3">Infi 3</div>
-            <div class="cama disponible" style="position: absolute; top: 10%; left: 45%;" data-cama="Infi 2">Infi 2</div>
-            <div class="cama disponible" style="position: absolute; top: 10%; left: 55%;" data-cama="Infi 1">Infi 1</div>
-            <div class="shala" style="position: absolute; top: 10%; left: 63%; width: 10%; height: 40px; background-color: orange; text-align: center; line-height: 40px; font-weight: bold;">Shala</div>
-            <div class="cama disponible" style="position: absolute; top: 10%; left: 76%;" data-cama="Cama 13">Cama 13</div>
-            <div class="cama disponible" style="position: absolute; top: 10%; left: 82%;" data-cama="Cama 12">Cama 12</div>
-            <div class="cama disponible" style="position: absolute; top: 10%; left: 88%;" data-cama="Cama 11">Cama 11</div>
-            <div class="cama disponible" style="position: absolute; top: 10%; left: 94%;" data-cama="Cama 10">Cama 10</div>
+            <div class="cama disponible" style="top: 10%; left: 5%;" data-cama="Infi 6">Infi 6</div>
+            <div class="cama disponible" style="top: 10%; left: 15%;" data-cama="Infi 5">Infi 5</div>
+            <div class="cama disponible" style="top: 10%; left: 25%;" data-cama="Infi 4">Infi 4</div>
+            <div class="cama disponible" style="top: 10%; left: 35%;" data-cama="Infi 3">Infi 3</div>
+            <div class="cama disponible" style="top: 10%; left: 45%;" data-cama="Infi 2">Infi 2</div>
+            <div class="cama disponible" style="top: 10%; left: 55%;" data-cama="Infi 1">Infi 1</div>
+            <div class="shala" style="top: 10%; left: 65%; width: 10%;">Shala</div>
+            <div class="cama disponible" style="top: 10%; left: 78%;" data-cama="Cama 13">Cama 13</div>
+            <div class="cama disponible" style="top: 10%; left: 84%;" data-cama="Cama 12">Cama 12</div>
+            <div class="cama disponible" style="top: 10%; left: 90%;" data-cama="Cama 11">Cama 11</div>
+            <div class="cama disponible" style="top: 10%; left: 96%;" data-cama="Cama 10">Cama 10</div>
 
             <!-- Segunda línea -->
-            <div class="cama disponible" style="position: absolute; top: 30%; left: 5%;" data-cama="Pool 4">Pool 4</div>
-            <div class="cama disponible" style="position: absolute; top: 30%; left: 15%;" data-cama="Pool 3">Pool 3</div>
-            <div class="cama disponible" style="position: absolute; top: 30%; left: 25%;" data-cama="Pool 2">Pool 2</div>
-            <div class="cama disponible" style="position: absolute; top: 30%; left: 35%;" data-cama="Pool 1">Pool 1</div>
+            <div class="cama disponible" style="top: 30%; left: 5%;" data-cama="Pool 4">Pool 4</div>
+            <div class="cama disponible" style="top: 30%; left: 15%;" data-cama="Pool 3">Pool 3</div>
+            <div class="cama disponible" style="top: 30%; left: 25%;" data-cama="Pool 2">Pool 2</div>
+            <div class="cama disponible" style="top: 30%; left: 35%;" data-cama="Pool 1">Pool 1</div>
 
-            <!-- Piscina y Cancha de Volleyball -->
-            <div class="piscina" style="position: absolute; top: 50%; left: 5%; width: 20%; height: 60px; background-color: lightblue; text-align: center; line-height: 60px; font-weight: bold;">Piscina</div>
-            <div class="cancha" style="position: absolute; top: 50%; left: 30%; width: 50%; height: 60px; background-color: yellow; text-align: center; line-height: 60px; font-weight: bold;">Cancha Volleyball</div>
+            <!-- Piscina y Cancha -->
+            <div class="piscina" style="top: 50%; left: 5%; width: 20%;">Piscina</div>
+            <div class="cancha" style="top: 50%; left: 30%; width: 50%;">Cancha Volleyball</div>
 
             <!-- Última línea -->
-            <div class="bar" style="position: absolute; top: 70%; left: 5%; width: 20%; height: 40px; background-color: lightgreen; text-align: center; line-height: 40px; font-weight: bold;">Matcha Mama</div>
-            <div class="cama disponible" style="position: absolute; top: 70%; left: 30%;" data-cama="Cama 6">Cama 6</div>
-            <div class="cama disponible" style="position: absolute; top: 70%; left: 40%;" data-cama="Cama 5">Cama 5</div>
-            <div class="cama disponible" style="position: absolute; top: 70%; left: 50%;" data-cama="Cama 4">Cama 4</div>
-            <div class="cama disponible" style="position: absolute; top: 70%; left: 60%;" data-cama="Cama 3">Cama 3</div>
-            <div class="cama disponible" style="position: absolute; top: 70%; left: 70%;" data-cama="Cama 2">Cama 2</div>
-            <div class="cama disponible" style="position: absolute; top: 70%; left: 80%;" data-cama="Cama 1">Cama 1</div>
+            <div class="bar" style="top: 70%; left: 5%; width: 20%;">Matcha Mama</div>
+            <div class="cama disponible" style="top: 70%; left: 30%;" data-cama="Cama 6">Cama 6</div>
+            <div class="cama disponible" style="top: 70%; left: 40%;" data-cama="Cama 5">Cama 5</div>
+            <div class="cama disponible" style="top: 70%; left: 50%;" data-cama="Cama 4">Cama 4</div>
+            <div class="cama disponible" style="top: 70%; left: 60%;" data-cama="Cama 3">Cama 3</div>
+            <div class="cama disponible" style="top: 70%; left: 70%;" data-cama="Cama 2">Cama 2</div>
+            <div class="cama disponible" style="top: 70%; left: 80%;" data-cama="Cama 1">Cama 1</div>
         </div>
 
-        <!-- Formulario -->
         <div class="form-container">
             <h2>Reservar Cama</h2>
+            <p class="form-info">Consumo mínimo de $100 USD. Llegar antes de las 9:30am con 15/20 minutos de tolerancia.</p>
             <form id="reservar-form">
                 <div class="form-group">
                     <label for="nombre">Nombre y Apellido</label>
                     <input type="text" id="nombre" required>
                 </div>
                 <div class="form-group">
+                    <label for="telefono">Número de WhatsApp</label>
+                    <input type="tel" id="telefono" required>
+                </div>
+                <div class="form-group">
                     <label for="fecha">Fecha de Reserva</label>
                     <input type="date" id="fecha" required>
-                    <button onclick="actualizarDisponibilidad()">Ver Disponibilidad</button>
                 </div>
                 <div class="form-group">
                     <label for="cliente">¿Es Cliente del Hotel?</label>
@@ -259,167 +223,67 @@
                         <option value="externo">No</option>
                     </select>
                 </div>
-                <div class="form-group habitacion-group" style="display: none;">
+                <div class="form-group habitacion-group">
                     <label for="habitacion">Número de Habitación</label>
                     <input type="text" id="habitacion">
                 </div>
-                <div class="form-group externo-group" style="display: none;">
+                <div class="form-group externo-group">
                     <p>Los clientes externos tienen un consumo mínimo de $100 USD.</p>
                 </div>
                 <button type="submit">Reservar</button>
-                
             </form>
         </div>
-
     </div>
 
     <script>
-        let currentIndex = 0;
-
-        function moveCarousel(direction) {
-            const carousel = document.querySelector('.carousel-images');
-            const images = document.querySelectorAll('.carousel-images img');
-            currentIndex += direction;
-            if (currentIndex < 0) currentIndex = images.length - 1;
-            if (currentIndex >= images.length) currentIndex = 0;
-            carousel.style.transform = `translateX(-${currentIndex * 100}%)`;
-        }
-
         const clienteSelect = document.getElementById('cliente');
         const habitacionGroup = document.querySelector('.habitacion-group');
         const externoGroup = document.querySelector('.externo-group');
-        const camas = document.querySelectorAll('.map-container .cama');
-        
-        // estado de las camas: disponible o reservada
-        function updateCamaStatus() {
-            camas.forEach(cama => {
-                const camaData = cama.getAttribute('data-cama');
-                if (Math.random() > 0.5) {
-                    cama.classList.add('reservada');
-                    cama.classList.remove('disponible');
-                } else {
-                    cama.classList.add('disponible');
-                    cama.classList.remove('reservada');
-                }
-            });
-        }
 
-        // Inicializar los estados de las camas
-        updateCamaStatus();
-
-        // Cambio de cliente (habitacional o externo)
         clienteSelect.addEventListener('change', () => {
-            if (clienteSelect.value === 'habitacion') {
-                habitacionGroup.style.display = 'block';
-                externoGroup.style.display = 'none';
-            } else {
-                habitacionGroup.style.display = 'none';
-                externoGroup.style.display = 'block';
-            }
+            habitacionGroup.style.display = clienteSelect.value === 'habitacion' ? 'block' : 'none';
+            externoGroup.style.display = clienteSelect.value === 'externo' ? 'block' : 'none';
         });
-        
-       // Función para cargar las camas reservadas por fecha
-       function cargarCamasReservadas(fecha) {
-            const reservas = JSON.parse(localStorage.getItem('reservas')) || [];
-            const camas = document.querySelectorAll('.map-container .cama');
 
-            // Limpiar las clases de todas las camas antes de mostrar la nueva disponibilidad
-            camas.forEach(cama => {
-                cama.classList.add('disponible');
-                cama.classList.remove('reservada');
-            });
+        const camas = document.querySelectorAll('.map-container .cama');
+        let seleccionada = null;
 
-            reservas.forEach(reserva => {
-                if (reserva.fecha === fecha) {
-                    const cama = document.querySelector(`.map-container .cama[data-cama="${reserva.cama}"]`);
-                    if (cama) {
-                        cama.classList.add('reservada');
-                        cama.classList.remove('disponible');
-                    }
-                }
-            });
-        }
+        camas.forEach(cama => {
+            cama.addEventListener('click', () => {
+                if (cama.classList.contains('reservada')) return;
 
-        // Función para realizar una reserva
-        function reservarCama(camaId, fecha) {
-            const reservas = JSON.parse(localStorage.getItem('reservas')) || [];
-            reservas.push({ cama: camaId, fecha: fecha });
-            localStorage.setItem('reservas', JSON.stringify(reservas));
-        }
-
-        // Función para actualizar la disponibilidad según la fecha
-        function actualizarDisponibilidad() {
-            const fecha = document.getElementById('fecha').value;
-            if (fecha) {
-                cargarCamasReservadas(fecha);
-            } else {
-                alert('Por favor, selecciona una fecha.');
-            }
-        }
-
-        // Asignar evento a las camas
-        document.querySelectorAll('.map-container .cama').forEach(cama => {
-            cama.addEventListener('click', (event) => {
-                const fecha = document.getElementById('fecha').value;
-                if (!cama.classList.contains('reservada') && fecha) {
-                    const camaId = cama.getAttribute('data-cama');
-                    reservarCama(camaId, fecha);
-                    cargarCamasReservadas(fecha); // Actualizar disponibilidad
-                }
+                camas.forEach(c => c.classList.remove('seleccionada'));
+                cama.classList.add('seleccionada');
+                seleccionada = cama.getAttribute('data-cama');
             });
         });
 
-        // Inicializar camas y disponibilidad al cargar la página
-        window.onload = () => {
+        document.getElementById('reservar-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const nombre = document.getElementById('nombre').value;
+            const telefono = document.getElementById('telefono').value;
             const fecha = document.getElementById('fecha').value;
-            if (fecha) {
-                cargarCamasReservadas(fecha);
+            const cliente = clienteSelect.value;
+            const habitacion = document.getElementById('habitacion').value;
+
+            if (!seleccionada) {
+                alert('Por favor selecciona una cama.');
+                return;
             }
-        };
-        async function reservarCama() {
-    let fecha = document.getElementById("fecha").value;
-    let nombre = document.getElementById("nombre").value;
-    let cama = seleccionada; // Cama que el usuario selecciona
-    let cliente = document.getElementById("cliente").value;
-    let habitacion = document.getElementById("habitacion").value;
-    
-    let url = "TU_URL_DEL_SCRIPT"; // 
 
-    let data = {
-        fecha: fecha,
-        cama: cama,
-        nombre: nombre,
-        cliente: cliente,
-        habitacion: habitacion,
-        estado: "Reservado"
-    };
+            let mensaje = `Hola ${nombre}, tu reserva ha sido registrada para la cama ${seleccionada} el día ${fecha}.`;
+            mensaje += `\nRecuerda que el consumo mínimo es de $100 USD y debes llegar antes de las 9:30am con 15/20 minutos de tolerancia.`;
 
-    await fetch(url, {
-        method: "POST",
-        body: JSON.stringify(data),
-        headers: { "Content-Type": "application/json" }
-    });
+            if (cliente === 'habitacion') {
+                mensaje += `\nCliente: Hotel (Habitación ${habitacion})`;
+            } else {
+                mensaje += `\nCliente: Externo`;
+            }
 
-    alert("Reserva guardada correctamente");
-}
-async function cargarReservas() {
-    let url = "TU_URL_DEL_SCRIPT"; //
-    let response = await fetch(url);
-    let reservas = await response.json();
-    
-    reservas.forEach(reserva => {
-        let fechaReserva = reserva[0]; // Primera columna (Fecha)
-        let cama = reserva[1]; // Segunda columna (Cama)
-        let estado = reserva[5]; // Última columna (Estado)
-
-        if (estado === "Reservado") {
-            document.getElementById(cama).classList.add("reservado");
-        }
-    });
-}
-
-document.addEventListener("DOMContentLoaded", cargarReservas);
-
+            const whatsappUrl = `https://wa.me/${telefono.replace(/[^\d]/g, '')}?text=${encodeURIComponent(mensaje)}`;
+            window.open(whatsappUrl, '_blank');
+        });
     </script>
 </body>
 </html>
