@@ -5,235 +5,246 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Beach Club Ikal - Reserva de Camas</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background: linear-gradient(to bottom, #d4e4dc, #f8f8f8);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
         header {
-            background-color: #57758c;
-            color: white;
-            text-align: center;
-            padding: 1rem;
-            width: 100%;
-        }
+    background-color: #8b5e3c;
+    color: #fff;
+    text-align: center;
+    padding: 1.5rem;
+    width: 100%;
+    letter-spacing: 1px;
+}
 
-        .main-container {
-            display: flex;
-            justify-content: space-between;
-            width: 100%;
-            margin: 2rem auto;
-        }
+.main-container {
+    display: flex;
+    justify-content: space-between;
+    width: 90%;
+    max-width: 1200px;
+    margin: 2rem auto;
+    gap: 2rem;
+}
 
-        .map-container {
-            width: 70%;
-            position: relative;
-            border: 2px solid #345c4d;
-            padding: 10px;
-            box-sizing: border-box;
-            background-color: #a6d5c8;
-            border-radius: 10px;
-        }
+.map-container {
+    width: 70%;
+    position: relative;
+    border: 2px solid #c4a484;
+    padding: 10px;
+    box-sizing: border-box;
+    background-color: #e8dfd1;
+    border-radius: 12px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+}
 
-        .map-container .cama,
-        .map-container .shala,
-        .map-container .piscina,
-        .map-container .cancha,
-        .map-container .bar {
-            position: absolute;
-            border-radius: 8px;
-            text-align: center;
-            font-weight: bold;
-            color: #ffffff;
-        }
+.map-container .cama,
+.map-container .shala,
+.map-container .piscina,
+.map-container .cancha,
+.map-container .bar {
+    position: absolute;
+    border-radius: 8px;
+    text-align: center;
+    font-weight: 600;
+    color: #fff;
+    transition: transform 0.2s ease;
+}
 
-        .map-container .cama {
-            width: 50px;
-            height: 50px;
-            line-height: 50px;
-            cursor: pointer;
-            background-color: #4caf50;
-        }
+.map-container .cama {
+    width: 50px;
+    height: 50px;
+    line-height: 50px;
+    cursor: pointer;
+    background-color: #6b8f71;
+}
 
-        .map-container .cama.reservada {
-            background-color: #f44336;
-            cursor: not-allowed;
-        }
+.map-container .cama:hover {
+    transform: scale(1.08);
+    background-color: #5e7f63;
+}
 
-        .map-container .cama.seleccionada {
-            border: 3px solid #ff9800;
-        }
+.map-container .cama.reservada {
+    background-color: #b64b34;
+    cursor: not-allowed;
+}
 
-        .shala {
-            height: 40px;
-            background-color: #f9a825;
-            line-height: 40px;
-            color: #fff;
-        }
+.map-container .cama.seleccionada {
+    border: 3px solid #d4a373;
+}
 
-        .piscina {
-            background-color: #4fc3f7;
-            height: 60px;
-            line-height: 60px;
-        }
+.shala {
+    height: 40px;
+    background-color: #b68c5a;
+    line-height: 40px;
+}
 
-        .cancha {
-            background-color: #ffd54f;
-            height: 60px;
-            line-height: 60px;
-            color: #000;
-        }
+.piscina {
+    background-color: #7fb8b0;
+    height: 60px;
+    line-height: 60px;
+}
 
-        .bar {
-            background-color: #81c784;
-            height: 40px;
-            line-height: 40px;
-        }
+.cancha {
+    background-color: #d9c38f;
+    height: 60px;
+    line-height: 60px;
+    color: #3e3a36;
+}
 
-        .form-container {
-            width: 25%;
-            padding: 20px;
-            background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
+.bar {
+    background-color: #8aa564;
+    height: 40px;
+    line-height: 40px;
+}
 
-        .form-container h2 {
-            margin-bottom: 0.5rem;
-        }
+.form-container {
+    width: 30%;
+    padding: 25px;
+    background-color: #fffdf8;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e0d7ca;
+}
 
-        .form-info {
-            font-size: 0.9rem;
-            margin-bottom: 1.5rem;
-            color: #333;
-        }
+.form-container h2 {
+    margin-bottom: 0.5rem;
+    color: #5c4836;
+}
 
-        .form-group {
-            margin-bottom: 1rem;
-        }
+.form-info {
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+    color: #6e665f;
+}
 
-        label {
-            display: block;
-            font-weight: bold;
-            margin-bottom: 0.3rem;
-        }
+.form-group {
+    margin-bottom: 1rem;
+}
 
-        input, select, button {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 0.3rem;
+    color: #4e4338;
+}
 
-        button {
-            background-color: #0c6b47;
-            color: white;
-            font-weight: bold;
-            cursor: pointer;
-        }
+input, select, button {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-family: inherit;
+}
 
-        button:hover {
-            background-color: #0a4e34;
-        }
+button {
+    background-color: #6b8f71;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+    transition: background 0.3s;
+}
 
-        .habitacion-group,
-        .externo-group {
-            display: none;
-        }
+button:hover {
+    background-color: #547a5c;
+}
 
-        .mar {
-            position: absolute;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 20px;
-            font-weight: bold;
-            color: #00bcd4;
-        }
+.habitacion-group,
+.externo-group {
+    display: none;
+}
+
+.mar {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 20px;
+    font-weight: bold;
+    color: #7fb8b0;
+}
+
     </style>
-</head>
+ </head>
 <body>
     <header>
         <h1>Beach Club Ikal - Reserva de Camas</h1>
-    </header>
+    </header> 
 
     <div class="main-container">
         <div class="map-container">
             <div class="mar">Mar Caribe</div>
 
-            <!-- Primera línea -->
-            <div class="cama disponible" style="top: 10%; left: 5%;" data-cama="Infi 6">Infi 6</div>
-            <div class="cama disponible" style="top: 10%; left: 15%;" data-cama="Infi 5">Infi 5</div>
-            <div class="cama disponible" style="top: 10%; left: 25%;" data-cama="Infi 4">Infi 4</div>
-            <div class="cama disponible" style="top: 10%; left: 35%;" data-cama="Infi 3">Infi 3</div>
-            <div class="cama disponible" style="top: 10%; left: 45%;" data-cama="Infi 2">Infi 2</div>
-            <div class="cama disponible" style="top: 10%; left: 55%;" data-cama="Infi 1">Infi 1</div>
-            <div class="shala" style="top: 10%; left: 65%; width: 10%;">Shala</div>
-            <div class="cama disponible" style="top: 10%; left: 78%;" data-cama="Cama 13">Cama 13</div>
-            <div class="cama disponible" style="top: 10%; left: 84%;" data-cama="Cama 12">Cama 12</div>
-            <div class="cama disponible" style="top: 10%; left: 90%;" data-cama="Cama 11">Cama 11</div>
-            <div class="cama disponible" style="top: 10%; left: 96%;" data-cama="Cama 10">Cama 10</div>
+                <!-- Primera línea (Infi) -->
+    <div class="cama disponible" style="top: 10%; left: 5%;" data-cama="Infi 6">Infi 6</div>
+    <div class="cama disponible" style="top: 10%; left: 13%;" data-cama="Infi 5">Infi 5</div>
+    <div class="cama disponible" style="top: 10%; left: 21%;" data-cama="Infi 4">Infi 4</div>
+    <div class="cama disponible" style="top: 10%; left: 29%;" data-cama="Infi 3">Infi 3</div>
+    <div class="cama disponible" style="top: 10%; left: 37%;" data-cama="Infi 2">Infi 2</div>
+    <div class="cama disponible" style="top: 10%; left: 45%;" data-cama="Infi 1">Infi 1</div>
 
-            <!-- Segunda línea -->
-            <div class="cama disponible" style="top: 30%; left: 5%;" data-cama="Pool 4">Pool 4</div>
-            <div class="cama disponible" style="top: 30%; left: 15%;" data-cama="Pool 3">Pool 3</div>
-            <div class="cama disponible" style="top: 30%; left: 25%;" data-cama="Pool 2">Pool 2</div>
-            <div class="cama disponible" style="top: 30%; left: 35%;" data-cama="Pool 1">Pool 1</div>
+    <!-- Shala -->
+    <div class="shala" style="top: 10%; left: 55%; width: 10%;">Shala</div>
 
-            <!-- Piscina y Cancha -->
-            <div class="piscina" style="top: 50%; left: 5%; width: 20%;">Piscina</div>
-            <div class="cancha" style="top: 50%; left: 30%; width: 50%;">Cancha Volleyball</div>
+    <!-- Segunda línea (Camas 10 a 13) -->
+    <div class="cama disponible" style="top: 10%; left: 67%;" data-cama="Cama 10">Cama 10</div>
+    <div class="cama disponible" style="top: 10%; left: 74%;" data-cama="Cama 11">Cama 11</div>
+    <div class="cama disponible" style="top: 10%; left: 81%;" data-cama="Cama 12">Cama 12</div>
+    <div class="cama disponible" style="top: 10%; left: 88%;" data-cama="Cama 13">Cama 13</div>
 
-            <!-- Última línea -->
-            <div class="bar" style="top: 70%; left: 5%; width: 20%;">Matcha Mama</div>
-            <div class="cama disponible" style="top: 70%; left: 30%;" data-cama="Cama 6">Cama 6</div>
-            <div class="cama disponible" style="top: 70%; left: 40%;" data-cama="Cama 5">Cama 5</div>
-            <div class="cama disponible" style="top: 70%; left: 50%;" data-cama="Cama 4">Cama 4</div>
-            <div class="cama disponible" style="top: 70%; left: 60%;" data-cama="Cama 3">Cama 3</div>
-            <div class="cama disponible" style="top: 70%; left: 70%;" data-cama="Cama 2">Cama 2</div>
-            <div class="cama disponible" style="top: 70%; left: 80%;" data-cama="Cama 1">Cama 1</div>
+    <!-- Segunda línea camas Pool -->
+    <div class="cama disponible" style="top: 30%; left: 5%;" data-cama="Pool 4">Pool 4</div>
+    <div class="cama disponible" style="top: 30%; left: 15%;" data-cama="Pool 3">Pool 3</div>
+    <div class="cama disponible" style="top: 30%; left: 25%;" data-cama="Pool 2">Pool 2</div>
+    <div class="cama disponible" style="top: 30%; left: 35%;" data-cama="Pool 1">Pool 1</div>
+
+    <!-- Piscina y Cancha -->
+    <div class="piscina" style="top: 50%; left: 5%; width: 20%;">Piscina</div>
+    <div class="cancha" style="top: 50%; left: 30%; width: 50%;">Cancha Volleyball</div>
+
+    <!-- Última línea -->
+    <div class="bar" style="top: 70%; left: 5%; width: 20%;">Matcha Mama</div>
+    <div class="cama disponible" style="top: 70%; left: 30%;" data-cama="Cama 6">Cama 6</div>
+    <div class="cama disponible" style="top: 70%; left: 40%;" data-cama="Cama 5">Cama 5</div>
+    <div class="cama disponible" style="top: 70%; left: 50%;" data-cama="Cama 4">Cama 4</div>
+    <div class="cama disponible" style="top: 70%; left: 60%;" data-cama="Cama 3">Cama 3</div>
+    <div class="cama disponible" style="top: 70%; left: 70%;" data-cama="Cama 2">Cama 2</div>
+    <div class="cama disponible" style="top: 70%; left: 80%;" data-cama="Cama 1">Cama 1</div>
+</div>
+
+<div class="form-container">
+    <h2>Reservar Cama</h2>
+    <p class="form-info">Consumo mínimo de $100 USD. Llegar antes de las 9:30am con 15/20 minutos de tolerancia.</p>
+    <form id="reservar-form">
+        <div class="form-group">
+            <label for="nombre">Nombre y Apellido</label>
+            <input type="text" id="nombre" required>
         </div>
-
-        <div class="form-container">
-            <h2>Reservar Cama</h2>
-            <p class="form-info">Consumo mínimo de $100 USD. Llegar antes de las 9:30am con 15/20 minutos de tolerancia.</p>
-            <form id="reservar-form">
-                <div class="form-group">
-                    <label for="nombre">Nombre y Apellido</label>
-                    <input type="text" id="nombre" required>
-                </div>
-                <div class="form-group">
-                    <label for="telefono">Número de WhatsApp</label>
-                    <input type="tel" id="telefono" required>
-                </div>
-                <div class="form-group">
-                    <label for="fecha">Fecha de Reserva</label>
-                    <input type="date" id="fecha" required>
-                </div>
-                <div class="form-group">
-                    <label for="cliente">¿Es Cliente del Hotel?</label>
-                    <select id="cliente" required>
-                        <option value="" disabled selected>Seleccione</option>
-                        <option value="habitacion">Sí</option>
-                        <option value="externo">No</option>
-                    </select>
-                </div>
-                <div class="form-group habitacion-group">
-                    <label for="habitacion">Número de Habitación</label>
-                    <input type="text" id="habitacion">
-                </div>
-                <div class="form-group externo-group">
-                    <p>Los clientes externos tienen un consumo mínimo de $100 USD.</p>
-                </div>
-                <button type="submit">Reservar</button>
-            </form>
+        <div class="form-group">
+            <label for="telefono">Número de WhatsApp</label>
+            <input type="tel" id="telefono" required>
         </div>
-    </div>
+        <div class="form-group">
+            <label for="fecha">Fecha de Reserva</label>
+            <input type="date" id="fecha" required>
+        </div>
+        <div class="form-group">
+            <label for="cliente">¿Es Cliente del Hotel?</label>
+            <select id="cliente" required>
+                <option value="" disabled selected>Seleccione</option>
+                <option value="habitacion">Sí</option>
+                <option value="externo">No</option>
+            </select>
+        </div>
+        <div class="form-group habitacion-group">
+            <label for="habitacion">Número de Habitación</label>
+            <input type="text" id="habitacion">
+        </div>
+        <div class="form-group externo-group">
+            <p>Los clientes externos tienen un consumo mínimo de $100 USD.</p>
+        </div>
+        <button type="submit">Reservar</button>
+    </form>
+</div>
+
+    </div> 
 
     <script>
         const clienteSelect = document.getElementById('cliente');
@@ -286,4 +297,7 @@
         });
     </script>
 </body>
-</html>
+</html> 
+
+
+
