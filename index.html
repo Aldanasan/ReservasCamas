@@ -454,7 +454,7 @@ document.getElementById('reservar-form').addEventListener('submit', async e => {
 
 // Google Sheets
 async function enviarAGoogleSheets(reserva) {
-  await fetch('TU_URL_DE_APPS_SCRIPT', {
+  await fetch('https://script.google.com/macros/s/AKfycbyJ967YRSg7MljVd8hi08Oowta14dN-U9eByZSey8du5whM2ArE91yfje1QOuPCJJzX/exec', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(reserva)
