@@ -355,6 +355,19 @@ const habitacionGroup = document.querySelector('.habitacion-group');
 const habitacionInput = document.getElementById('habitacion');
 const camas = document.querySelectorAll('.map-container .cama');
 
+   
+clienteSelect.addEventListener('change', () => {
+  if (clienteSelect.value === 'habitacion') {
+    habitacionGroup.style.display = 'block';
+    habitacionInput.required = true;
+  } else {
+    habitacionGroup.style.display = 'none';
+    habitacionInput.required = false;
+    habitacionInput.value = '';
+  }
+});
+
+   
 let seleccionada = null;
 const reservasPorFechaHora = {};
 
