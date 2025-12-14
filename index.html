@@ -1,4 +1,4 @@
-   <!DOCTYPE html>
+  <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -351,16 +351,22 @@ let seleccionada = null;
 const reservasPorFechaHora = {};
 
 // Mostrar / ocultar habitación
-clienteSelect.addEventListener('change', () => {
-  if (clienteSelect.value === 'habitacion') {
-    habitacionGroup.style.display = 'block';
-    habitacionInput.required = true;
-  } else {
-    habitacionGroup.style.display = 'none';
-    habitacionInput.required = false;
-    habitacionInput.value = '';
+document.getElementById('fecha').addEventListener('change', e => {
+  const fecha = e.target.value;
+
+  // limpiar mapa
+  camas.forEach(c => c.classList.remove('reservada', 'seleccionada'));
+  seleccionada = null;
+
+  // volver a pintar reservas SOLO por fecha
+  if (reservasPorFecha[fecha]) {
+    reservasPorFecha[fecha].forEach(nombre => {
+      const cama = [...camas].find(c => c.dataset.cama === nombre);
+      if (cama) cama.classList.add('reservada');
+    });
   }
 });
+
 
 // Selección de camas
 camas.forEach(cama => {
@@ -448,7 +454,7 @@ document.getElementById('reservar-form').addEventListener('submit', async e => {
 
 // Google Sheets
 async function enviarAGoogleSheets(reserva) {
-  await fetch('https://script.google.com/macros/s/AKfycbyAornpk7AzKXrsE_83U7QyTXJ4OF1h1jvY7kh_BEM7NIBQyvSTzKGcMp7QSiF7m79r/exec', {
+  await fetch('TU_URL_DE_APPS_SCRIPT', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(reserva)
@@ -461,5 +467,4 @@ async function enviarAGoogleSheets(reserva) {
 
 </body>
 </html> 
-
 
