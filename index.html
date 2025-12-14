@@ -1,4 +1,4 @@
-    <!DOCTYPE html>
+   <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -162,6 +162,58 @@ button:hover {
     color: #7fb8b0;
 }
 
+/* TABLET y MOBILE */
+@media (max-width: 1024px) {
+  .main-container {
+    flex-direction: column;
+    width: 95%;
+  }
+
+  .map-container,
+  .form-container {
+    width: 100%;
+  }
+
+  .form-container {
+    margin-top: 1.5rem;
+  }
+}
+/* Escala del mapa según pantalla */
+@media (max-width: 768px) {
+  .map-container {
+    min-height: 420px;
+  }
+
+  .map-container .cama {
+    width: 42px;
+    height: 42px;
+    line-height: 42px;
+    font-size: 0.7rem;
+  }
+
+  .shala,
+  .bar {
+    font-size: 0.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .map-container {
+    min-height: 380px;
+  }
+
+  .map-container .cama {
+    width: 38px;
+    height: 38px;
+    line-height: 38px;
+    font-size: 0.65rem;
+  }
+
+  .mar {
+    font-size: 16px;
+  }
+}
+
     </style>
  </head>
  
@@ -178,14 +230,14 @@ justify-content:center; align-items:center; z-index:9999;">
 
     <hr>
 
-    <p style="font-size:0.9rem;">
+    <p style="font-size:1rem;">
       ⏰ Te recordamos que contamos con una tolerancia de 
       <strong>15 minutos</strong> a partir del horario de tu reserva.<br>
       En caso de no presentarte dentro de ese tiempo, la cama podrá ser liberada
       para otros huéspedes.
     </p>
 
-    <p style="font-size:0.9rem; margin-top:10px;">
+    <p style="font-size:1rem; margin-top:10px;">
       ⏰ We remind you that we have a 
       <strong>15-minute tolerance</strong> from your reservation time.<br>
       If you do not arrive within this time, the bed may be released for other guests.
@@ -244,7 +296,7 @@ justify-content:center; align-items:center; z-index:9999;">
 
 <div class="form-container">
     <h2>Reservar Cama</h2>
-    <p class="form-info">.</p>
+    <p class="form-info"></p>
     <form id="reservar-form">
         <div class="form-group">
             <label for="nombre">Nombre y Apellido</label>
@@ -280,7 +332,7 @@ justify-content:center; align-items:center; z-index:9999;">
             <input type="text" id="habitacion">
         </div>
         <div class="form-group externo-group">
-            <p></p>
+            <p>.</p>
         </div>
         <button type="submit">Reservar</button>
     </form>
@@ -288,61 +340,92 @@ justify-content:center; align-items:center; z-index:9999;">
 
     </div> 
 
-   <script type="module">
-
+ <script type="module">
 
 const clienteSelect = document.getElementById('cliente');
+const habitacionGroup = document.querySelector('.habitacion-group');
+const habitacionInput = document.getElementById('habitacion');
 const camas = document.querySelectorAll('.map-container .cama');
-let seleccionada = null;
-const reservasPorFecha = {};
-const hora = document.getElementById('hora').value;
-const keyReserva = `${fecha}_${hora}_${seleccionada}`;
 
+let seleccionada = null;
+const reservasPorFechaHora = {};
+
+// Mostrar / ocultar habitación
+clienteSelect.addEventListener('change', () => {
+  if (clienteSelect.value === 'habitacion') {
+    habitacionGroup.style.display = 'block';
+    habitacionInput.required = true;
+  } else {
+    habitacionGroup.style.display = 'none';
+    habitacionInput.required = false;
+    habitacionInput.value = '';
+  }
+});
+
+// Selección de camas
 camas.forEach(cama => {
   cama.addEventListener('click', () => {
+    if (cama.classList.contains('reservada')) return;
+
     camas.forEach(c => c.classList.remove('seleccionada'));
     cama.classList.add('seleccionada');
     seleccionada = cama.dataset.cama;
   });
 });
 
-if (!hora) {
-alert('Por favor selecciona un horario.');
-return;
-}
+// Cambio de fecha u horario → refresca bloqueos
+function refrescarCamas() {
+  const fecha = document.getElementById('fecha').value;
+  const hora = document.getElementById('hora').value;
 
-document.getElementById('fecha').addEventListener('change', e => {
-  const fecha = e.target.value;
   camas.forEach(c => c.classList.remove('reservada','seleccionada'));
   seleccionada = null;
 
-  if (reservasPorFecha[fecha]) {
-    reservasPorFecha[fecha].forEach(nombre => {
-      const c = [...camas].find(x => x.dataset.cama === nombre);
+  if (reservasPorFechaHora[fecha]?.[hora]) {
+    reservasPorFechaHora[fecha][hora].forEach(camaNombre => {
+      const c = [...camas].find(x => x.dataset.cama === camaNombre);
       if (c) c.classList.add('reservada');
     });
   }
-});
+}
 
-document.getElementById('reservar-form').addEventListener('submit', e => {
+document.getElementById('fecha').addEventListener('change', refrescarCamas);
+document.getElementById('hora').addEventListener('change', refrescarCamas);
+
+// Envío formulario
+document.getElementById('reservar-form').addEventListener('submit', async e => {
   e.preventDefault();
 
   const nombre = document.getElementById('nombre').value;
   const fecha = document.getElementById('fecha').value;
-  const cliente = clienteSelect.value || 'externo';
-  const habitacion = document.getElementById('habitacion').value || '';
+  const hora = document.getElementById('hora').value;
+  const cliente = clienteSelect.value;
+  const habitacion = habitacionInput.value;
 
   if (!seleccionada) {
     alert('Seleccioná una cama');
     return;
   }
 
-  if (!reservasPorFecha[fecha]) reservasPorFecha[fecha] = [];
-  reservasPorFecha[fecha].push(seleccionada);
+  if (!hora) {
+    alert('Seleccioná un horario');
+    return;
+  }
+
+  if (cliente === 'habitacion' && !habitacion) {
+    alert('Ingresá el número de habitación');
+    return;
+  }
+
+  if (!reservasPorFechaHora[fecha]) reservasPorFechaHora[fecha] = {};
+  if (!reservasPorFechaHora[fecha][hora]) reservasPorFechaHora[fecha][hora] = [];
+
+  reservasPorFechaHora[fecha][hora].push(seleccionada);
 
   document.getElementById('datos-reserva').innerHTML = `
     <strong>Nombre:</strong> ${nombre}<br>
     <strong>Fecha:</strong> ${fecha}<br>
+    <strong>Horario:</strong> ${hora}<br>
     <strong>Cama:</strong> ${seleccionada}<br>
     <strong>Cliente:</strong> ${cliente === 'habitacion'
       ? 'Hotel - Hab. ' + habitacion
@@ -351,32 +434,32 @@ document.getElementById('reservar-form').addEventListener('submit', e => {
 
   document.getElementById('confirmacion').style.display = 'flex';
 
-  const camaObj = [...camas].find(c => c.dataset.cama === seleccionada);
-  camaObj.classList.add('reservada');
+  await enviarAGoogleSheets({
+    fecha,
+    hora,
+    cama: seleccionada,
+    nombre,
+    cliente,
+    habitacion
+  });
 
-  seleccionada = null;
+  refrescarCamas();
 });
 
-
+// Google Sheets
 async function enviarAGoogleSheets(reserva) {
-await fetch('https://script.google.com/macros/s/AKfycbyAornpk7AzKXrsE_83U7QyTXJ4OF1h1jvY7kh_BEM7NIBQyvSTzKGcMp7QSiF7m79r/exec', {
-method: 'POST',
-headers: { 'Content-Type': 'application/json' },
-body: JSON.stringify(reserva)
-});
+  await fetch('https://script.google.com/macros/s/AKfycbyAornpk7AzKXrsE_83U7QyTXJ4OF1h1jvY7kh_BEM7NIBQyvSTzKGcMp7QSiF7m79r/exec', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(reserva)
+  });
 }
-
-enviarAGoogleSheets({
-fecha,
-hora,
-cama: seleccionada,
-nombre,
-cliente,
-habitacion: habitacion || ''
-});
 
 </script>
 
 
+
 </body>
 </html> 
+
+
