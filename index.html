@@ -235,17 +235,13 @@ justify-content:center; align-items:center; z-index:9999;">
       <strong>15 minutos</strong> a partir del horario de tu reserva.<br>
       En caso de no presentarte dentro de ese tiempo, la cama podrá ser liberada
       para otros huéspedes.
-      <p style="font-size:1rem; margin-top:12px;">
-📸 <strong>Por favor, tomá una captura de pantalla de esta confirmación</strong> y
-mostrala al llegar al Beach Club.
-</p>
     </p>
 
     <p style="font-size:1rem; margin-top:10px;">
       ⏰ We remind you that we have a 
       <strong>15-minute tolerance</strong> from your reservation time.<br>
       If you do not arrive within this time, the bed may be released for other guests.
-      <p style="font-size:1rem;">
+      <p style="font-size:0.9rem;">
 📸 <strong>Please take a screenshot of this confirmation</strong> and
 show it upon arrival at the Beach Club.
 </p>
@@ -355,7 +351,8 @@ const habitacionGroup = document.querySelector('.habitacion-group');
 const habitacionInput = document.getElementById('habitacion');
 const camas = document.querySelectorAll('.map-container .cama');
 
-   
+
+
 clienteSelect.addEventListener('change', () => {
   if (clienteSelect.value === 'habitacion') {
     habitacionGroup.style.display = 'block';
@@ -367,7 +364,7 @@ clienteSelect.addEventListener('change', () => {
   }
 });
 
-   
+
 let seleccionada = null;
 const reservasPorFechaHora = {};
 
@@ -478,13 +475,7 @@ async function enviarAGoogleSheets(reserva) {
   await fetch('https://script.google.com/macros/s/AKfycbzq_hroaoMgSp81OA0l9JmC3IHMYZibkbO438I9hKvpJXJdauLtc-JrUJgmJ3GOCkF5/exec', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-    fecha,
-    hora,
-    cama: seleccionada,
-    esHuesped,
-    habitacion,
-    nombre
+    body: JSON.stringify(reserva)
   });
 }
 
