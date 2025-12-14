@@ -235,12 +235,20 @@ justify-content:center; align-items:center; z-index:9999;">
       <strong>15 minutos</strong> a partir del horario de tu reserva.<br>
       En caso de no presentarte dentro de ese tiempo, la cama podrá ser liberada
       para otros huéspedes.
+      <p style="font-size:1rem; margin-top:12px;">
+📸 <strong>Por favor, tomá una captura de pantalla de esta confirmación</strong> y
+mostrala al llegar al Beach Club.
+</p>
     </p>
 
     <p style="font-size:1rem; margin-top:10px;">
       ⏰ We remind you that we have a 
       <strong>15-minute tolerance</strong> from your reservation time.<br>
       If you do not arrive within this time, the bed may be released for other guests.
+      <p style="font-size:1rem;">
+📸 <strong>Please take a screenshot of this confirmation</strong> and
+show it upon arrival at the Beach Club.
+</p>
     </p>
 
     <button onclick="document.getElementById('confirmacion').style.display='none'"
@@ -454,7 +462,7 @@ document.getElementById('reservar-form').addEventListener('submit', async e => {
 
 // Google Sheets
 async function enviarAGoogleSheets(reserva) {
-  await fetch('https://script.google.com/macros/s/AKfycbzRkn3dhWKzfs-5jRCOi8eTL4JDjGv9oWRALJ232FUH8xEGusWfnVyuBN-hpDRbPZHL/exec', {
+  await fetch('https://script.google.com/macros/s/AKfycbzq_hroaoMgSp81OA0l9JmC3IHMYZibkbO438I9hKvpJXJdauLtc-JrUJgmJ3GOCkF5/exec', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
