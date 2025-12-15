@@ -500,7 +500,7 @@ document.getElementById('reservar-form').addEventListener('submit', async e => {
 
 // Google Sheets
 async function enviarAGoogleSheets(reserva) {
-  await fetch('https://script.google.com/macros/s/AKfycbzq_hroaoMgSp81OA0l9JmC3IHMYZibkbO438I9hKvpJXJdauLtc-JrUJgmJ3GOCkF5/exec', {
+  await fetch('https://script.google.com/macros/s/AKfycbxo5sfvL-hwwacSe0aExb3lvdlxTPvlOKrc8jfD92BaYGn0Pc7-Ze3zLDW19BhMTPGN/exec', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(reserva)
