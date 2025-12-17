@@ -503,12 +503,21 @@ document.getElementById('reservar-form').addEventListener('submit', async e => {
 
 // Google Sheets
 async function enviarAGoogleSheets(reserva) {
-  await fetch('hhttps://script.google.com/macros/s/AKfycby5Lt0IqtH339H-_NShvdyoZ96cIigqKj6oDOHwBsYIGBLt3j5cx-m1AnAHIk5Kw-dU/exec', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(reserva)
+  const formData = new FormData();
+
+  Object.keys(reserva).forEach(key => {
+    formData.append(key, reserva[key]);
   });
+
+  await fetch(
+    'https://script.google.com/macros/s/AKfycbzcUEnmHXDDZcAcYfUZYhMncx1MyYT_l4DewF2xmTJfoBXCKTbVYXvvmN6ukbQkUePd/exec',
+    {
+      method: 'POST',
+      body: formData
+    }
+  );
 }
+
 
 </script>
 
