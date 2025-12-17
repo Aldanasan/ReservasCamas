@@ -374,26 +374,20 @@ show it upon arrival at the Beach Club.
 
 <script type="module">
 
-/* ========= CONFIG ========= */
-const SHEETS_URL = "https://script.google.com/macros/s/AKfycbzM-Wm8Erj4c45K4WrGyDH_XNJbSzZtdOXSXJmrOS9J7t3ltDH9pLnEm9cB_POdrPmy/exec";
+const APPS_SCRIPT_URL =
+'https://script.google.com/macros/s/AKfycbzM-Wm8Erj4c45K4WrGyDH_XNJbSzZtdOXSXJmrOS9J7t3ltDH9pLnEm9cB_POdrPmy/exec';
 
-/* ========= ESTADO ========= */
-let reservasDesdeSheets = [];
-let seleccionada = null;
-
-/* ========= ELEMENTOS ========= */
 const clienteSelect = document.getElementById('cliente');
 const habitacionGroup = document.querySelector('.habitacion-group');
 const habitacionInput = document.getElementById('habitacion');
 const camas = document.querySelectorAll('.map-container .cama');
+const fechaInput = document.getElementById('fecha');
 
-/* ========= CARGAR RESERVAS ========= */
-async function cargarReservasDesdeSheets() {
-  const res = await fetch(SHEETS_URL);
-  reservasDesdeSheets = await res.json();
-}
+let seleccionada = null;
 
-/* ========= MOSTRAR / OCULTAR HABITACIÓN ========= */
+/* -------------------------
+   Mostrar / ocultar habitación
+------------------------- */
 clienteSelect.addEventListener('change', () => {
   if (clienteSelect.value === 'habitacion') {
     habitacionGroup.style.display = 'block';
@@ -405,7 +399,9 @@ clienteSelect.addEventListener('change', () => {
   }
 });
 
-/* ========= SELECCIONAR CAMA ========= */
+/* -------------------------
+   Seleccionar cama
+------------------------- */
 camas.forEach(cama => {
   cama.addEventListener('click', () => {
     if (cama.classList.contains('reservada')) return;
@@ -416,33 +412,36 @@ camas.forEach(cama => {
   });
 });
 
-/* ========= CAMBIO DE FECHA → BLOQUEO ========= */
-document.getElementById('fecha').addEventListener('change', async e => {
-  const fecha = e.target.value;
-
-  camas.forEach(c =>
-    c.classList.remove('reservada', 'seleccionada')
-  );
+/* -------------------------
+   Cargar y bloquear camas por fecha
+------------------------- */
+async function bloquearCamasPorFecha(fecha) {
+  camas.forEach(c => c.classList.remove('reservada', 'seleccionada'));
   seleccionada = null;
 
-  await cargarReservasDesdeSheets();
+  if (!fecha) return;
 
-  reservasDesdeSheets
-    .filter(r => r.fecha === fecha)
-    .forEach(r => {
-      const cama = [...camas].find(
-        c => c.dataset.cama === r.cama
-      );
-      if (cama) cama.classList.add('reservada');
-    });
+  const res = await fetch(`${APPS_SCRIPT_URL}?fecha=${fecha}`);
+  const camasReservadas = await res.json();
+
+  camasReservadas.forEach(nombre => {
+    const cama = [...camas].find(c => c.dataset.cama === nombre);
+    if (cama) cama.classList.add('reservada');
+  });
+}
+
+fechaInput.addEventListener('change', e => {
+  bloquearCamasPorFecha(e.target.value);
 });
 
-/* ========= ENVIAR FORMULARIO ========= */
+/* -------------------------
+   Enviar reserva
+------------------------- */
 document.getElementById('reservar-form').addEventListener('submit', async e => {
   e.preventDefault();
 
   const nombre = document.getElementById('nombre').value;
-  const fecha = document.getElementById('fecha').value;
+  const fecha = fechaInput.value;
   const hora = document.getElementById('hora').value;
   const cliente = clienteSelect.value;
   const habitacion = habitacionInput.value;
@@ -457,6 +456,22 @@ document.getElementById('reservar-form').addEventListener('submit', async e => {
     return;
   }
 
+  /* Guardar en Sheets */
+  const formData = new FormData();
+  formData.append('fecha', fecha);
+  formData.append('hora', hora);
+  formData.append('cama', seleccionada);
+  formData.append('nombre', nombre);
+  formData.append('cliente', cliente);
+  formData.append('habitacion', habitacion || '');
+
+  await fetch(APPS_SCRIPT_URL, {
+    method: 'POST',
+    mode: 'no-cors',
+    body: formData
+  });
+
+  /* Mostrar confirmación */
   document.getElementById('datos-reserva').innerHTML = `
     <strong>Nombre:</strong> ${nombre}<br>
     <strong>Fecha:</strong> ${fecha}<br>
@@ -467,54 +482,15 @@ document.getElementById('reservar-form').addEventListener('submit', async e => {
         ? 'Hotel - Hab. ' + habitacion
         : 'Externo'
     }<br><br>
-    📸 <em>Por favor, sacá una captura de pantalla.</em><br>
-    📸 <em>Please take a screenshot.</em>
+    📸 <em>Por favor sacá una captura de pantalla</em><br>
+    📸 <em>Please take a screenshot of this confirmation</em>
   `;
 
   document.getElementById('confirmacion').style.display = 'flex';
 
-  await enviarAGoogleSheets({
-    fecha,
-    hora,
-    cama: seleccionada,
-    nombre,
-    cliente,
-    habitacion
-  });
-
-  await cargarReservasDesdeSheets();
-
-  camas.forEach(c =>
-    c.classList.remove('reservada', 'seleccionada')
-  );
-
-  reservasDesdeSheets
-    .filter(r => r.fecha === fecha)
-    .forEach(r => {
-      const cama = [...camas].find(
-        c => c.dataset.cama === r.cama
-      );
-      if (cama) cama.classList.add('reservada');
-    });
+  /* Volver a bloquear según Sheets */
+  setTimeout(() => bloquearCamasPorFecha(fecha), 800);
 });
-
-/* ========= ENVIAR A SHEETS ========= */
-async function enviarAGoogleSheets(reserva) {
-  const formData = new FormData();
-
-  Object.entries(reserva).forEach(([k, v]) =>
-    formData.append(k, v ?? "")
-  );
-
-  await fetch(SHEETS_URL, {
-    method: "POST",
-    mode: "no-cors",
-    body: formData
-  });
-}
-
-/* ========= INIT ========= */
-await cargarReservasDesdeSheets();
 
 </script>
 
