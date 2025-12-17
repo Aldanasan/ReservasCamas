@@ -386,31 +386,6 @@ const fechaInput = document.getElementById('fecha');
 let seleccionada = null;
 
 /* -------------------------
-   Mostrar / ocultar habitación
-------------------------- */
-document.getElementById('fecha').addEventListener('change', async e => {
-  const fecha = e.target.value;
-
-  camas.forEach(c =>
-    c.classList.remove('reservada', 'seleccionada')
-  );
-  seleccionada = null;
-
-  const res = await fetch(
-    `${SHEETS_URL}?fecha=${fecha}`
-  );
-  const camasReservadas = await res.json();
-
-  camasReservadas.forEach(nombre => {
-    const cama = [...camas].find(
-      c => c.dataset.cama === nombre
-    );
-    if (cama) cama.classList.add('reservada');
-  });
-});
-
-
-/* -------------------------
    Seleccionar cama
 ------------------------- */
 camas.forEach(cama => {
