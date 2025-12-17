@@ -505,14 +505,15 @@ document.getElementById('reservar-form').addEventListener('submit', async e => {
 async function enviarAGoogleSheets(reserva) {
   const formData = new FormData();
 
-  Object.keys(reserva).forEach(key => {
-    formData.append(key, reserva[key]);
+  Object.entries(reserva).forEach(([key, value]) => {
+    formData.append(key, value ?? "");
   });
 
   await fetch(
-    'https://script.google.com/macros/s/AKfycbzcUEnmHXDDZcAcYfUZYhMncx1MyYT_l4DewF2xmTJfoBXCKTbVYXvvmN6ukbQkUePd/exec',
+    'https://script.google.com/macros/s/AKfycbzM-Wm8Erj4c45K4WrGyDH_XNJbSzZtdOXSXJmrOS9J7t3ltDH9pLnEm9cB_POdrPmy/exec',
     {
-      method: 'POST',
+      method: "POST",
+      mode: "no-cors",
       body: formData
     }
   );
