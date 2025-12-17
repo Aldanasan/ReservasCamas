@@ -406,19 +406,27 @@ camas.forEach(cama => {
 });
 
 /* Cambio de fecha → limpiar y bloquear */
-document.getElementById('fecha').addEventListener('change', e => {
+document.getElementById('fecha').addEventListener('change', async e => {
   const fecha = e.target.value;
 
-  camas.forEach(c => c.classList.remove('reservada','seleccionada'));
+  camas.forEach(c =>
+    c.classList.remove('reservada', 'seleccionada')
+  );
   seleccionada = null;
 
-  if (reservasPorFecha[fecha]) {
-    reservasPorFecha[fecha].forEach(camaNombre => {
-      const cama = [...camas].find(c => c.dataset.cama === camaNombre);
-      if (cama) cama.classList.add('reservada');
-    });
-  }
+  const res = await fetch(
+    `${SHEETS_URL}?fecha=${fecha}`
+  );
+  const camasReservadas = await res.json();
+
+  camasReservadas.forEach(nombre => {
+    const cama = [...camas].find(
+      c => c.dataset.cama === nombre
+    );
+    if (cama) cama.classList.add('reservada');
+  });
 });
+
 
 /* Enviar formulario */
 document.getElementById('reservar-form').addEventListener('submit', async e => {
@@ -495,7 +503,7 @@ document.getElementById('reservar-form').addEventListener('submit', async e => {
 
 // Google Sheets
 async function enviarAGoogleSheets(reserva) {
-  await fetch('https://script.google.com/macros/s/AKfycbxo5sfvL-hwwacSe0aExb3lvdlxTPvlOKrc8jfD92BaYGn0Pc7-Ze3zLDW19BhMTPGN/exec', {
+  await fetch('hhttps://script.google.com/macros/s/AKfycby5Lt0IqtH339H-_NShvdyoZ96cIigqKj6oDOHwBsYIGBLt3j5cx-m1AnAHIk5Kw-dU/exec', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(reserva)
