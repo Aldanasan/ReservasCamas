@@ -371,7 +371,6 @@ show it upon arrival at the Beach Club.
 </div>
 
     </div> 
-
 <script type="module">
 
 const APPS_SCRIPT_URL =
@@ -385,9 +384,23 @@ const fechaInput = document.getElementById('fecha');
 
 let seleccionada = null;
 
-/* -------------------------
-   Seleccionar cama
-------------------------- */
+/* ===============================
+   MOSTRAR / OCULTAR HABITACIÓN
+================================ */
+clienteSelect.addEventListener('change', () => {
+  if (clienteSelect.value === 'habitacion') {
+    habitacionGroup.style.display = 'block';
+    habitacionInput.required = true;
+  } else {
+    habitacionGroup.style.display = 'none';
+    habitacionInput.required = false;
+    habitacionInput.value = '';
+  }
+});
+
+/* ===============================
+   SELECCIONAR CAMA
+================================ */
 camas.forEach(cama => {
   cama.addEventListener('click', () => {
     if (cama.classList.contains('reservada')) return;
@@ -398,31 +411,38 @@ camas.forEach(cama => {
   });
 });
 
-/* -------------------------
-   Cargar y bloquear camas por fecha
-------------------------- */
+/* ===============================
+   BLOQUEAR CAMAS POR FECHA
+================================ */
 async function bloquearCamasPorFecha(fecha) {
   camas.forEach(c => c.classList.remove('reservada', 'seleccionada'));
   seleccionada = null;
 
   if (!fecha) return;
 
-  const res = await fetch(`${APPS_SCRIPT_URL}?fecha=${fecha}`);
-  const camasReservadas = await res.json();
+  try {
+    const res = await fetch(${APPS_SCRIPT_URL}?fecha=${fecha});
+    const data = await res.json();
 
-  camasReservadas.forEach(nombre => {
-    const cama = [...camas].find(c => c.dataset.cama === nombre);
-    if (cama) cama.classList.add('reservada');
-  });
+    if (!Array.isArray(data)) return;
+
+    data.forEach(nombre => {
+      const cama = [...camas].find(c => c.dataset.cama === nombre);
+      if (cama) cama.classList.add('reservada');
+    });
+
+  } catch (err) {
+    console.error('Error cargando camas:', err);
+  }
 }
 
 fechaInput.addEventListener('change', e => {
   bloquearCamasPorFecha(e.target.value);
 });
 
-/* -------------------------
-   Enviar reserva
-------------------------- */
+/* ===============================
+   ENVIAR RESERVA
+================================ */
 document.getElementById('reservar-form').addEventListener('submit', async e => {
   e.preventDefault();
 
@@ -442,7 +462,6 @@ document.getElementById('reservar-form').addEventListener('submit', async e => {
     return;
   }
 
-  /* Guardar en Sheets */
   const formData = new FormData();
   formData.append('fecha', fecha);
   formData.append('hora', hora);
@@ -457,7 +476,6 @@ document.getElementById('reservar-form').addEventListener('submit', async e => {
     body: formData
   });
 
-  /* Mostrar confirmación */
   document.getElementById('datos-reserva').innerHTML = `
     <strong>Nombre:</strong> ${nombre}<br>
     <strong>Fecha:</strong> ${fecha}<br>
@@ -474,7 +492,6 @@ document.getElementById('reservar-form').addEventListener('submit', async e => {
 
   document.getElementById('confirmacion').style.display = 'flex';
 
-  /* Volver a bloquear según Sheets */
   setTimeout(() => bloquearCamasPorFecha(fecha), 800);
 });
 
